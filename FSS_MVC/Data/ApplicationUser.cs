@@ -2,7 +2,6 @@
 
 namespace FSS_MVC.Data
 {
-    {
     public class ApplicationUser : IdentityUser
     {
         public string? FirstName { get; set; }   // your extra property

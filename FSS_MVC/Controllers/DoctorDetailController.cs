@@ -10,7 +10,7 @@ namespace FSS_MVC.Controllers
         private readonly HttpClient _httpClient;
         public DoctorDetailController(IHttpClientFactory factory)
         {
-            _httpClient = factory.CreateClient();
+            _httpClient = factory.CreateClient("FSS_API");
         }
 
         [Authorize(Roles = "Doctor, Admin")]
@@ -22,7 +22,7 @@ namespace FSS_MVC.Controllers
             return View(booking);
         }
         [Authorize(Roles = "Doctor, Admin")]
-        public async Task<IActionResult> DocDetail(int id)
+        public async Task<IActionResult> Detail(int id)
         {
             var response = await _httpClient.GetAsync($"api/DoctorDetail/{id}");
             if (response.StatusCode == System.Net.HttpStatusCode.NotFound)

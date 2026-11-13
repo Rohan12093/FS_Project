@@ -1,11 +1,11 @@
-﻿@* @model List<FFS_MVC.Models.>
+﻿@model List<FSS_MVC.ViewModels.NameVM>
 
 <h1>University Course Report</h1>
 <h2>This report combines Courses and Lecturers</h2>
 
 <br />
 <label for="hoursPerCredits">Hours Per Credits:</label>
-<input type="number" id="hoursPerCredit" value="10" min="0" oninput="CalculateHours()" />
+@* <input type="number" id="hoursPerCredit" value="10" min="0" oninput="CalculateHours()" /> *@
 
 <br />
 
@@ -27,9 +27,9 @@
 				<td>@item.CourseTitle</td>
 				<td>@item.Credits</td>
 				<td>@item.LecturerName</td>
-				<td class="hours-cell" data-credits="@item.Credits">
+@* 				<td class="hours-cell" data-credits="@item.Credits">
 					@item.EstimatedStudyHours
-				</td>
+				</td> *@
 			</tr>
 		}
 	</tbody>
@@ -38,19 +38,19 @@
 <br />
 
 <h3>Ajax Count Uni Courses</h3>
-<button type="button" class="btn btn-primary" onclick="loadCourseCount()">Show Course Count</button>
-<p id="courseCountResult"></p>
+@* <button type="button" class="btn btn-primary" onclick="loadCourseCount()">Show Course Count</button>
+<p id="courseCountResult"></p> *@
 
 <br />
 
 
 <h3>Public API Programming book Suggestion</h3>
-<button type="button" class="btn btn-primary" onclick="loadBook()">Find a programming book</button>
-<p id="bookResult"></p>
+@* <button type="button" class="btn btn-primary" onclick="loadBook()">Find a programming book</button>
+<p id="bookResult"></p> *@
 
 
 <br />
-<script>
+@* <script>
 	function CalculateHours() {
 		//alert("Hi")
 		var multipler = document.getElementById("hoursPerCredit").value;
@@ -99,7 +99,6 @@
  
 	}
 
-</script>
+</script> *@
 
 
- *@
