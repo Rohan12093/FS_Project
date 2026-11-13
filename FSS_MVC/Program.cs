@@ -17,7 +17,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddHttpClient("FSS_API", client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7281/");
+    client.BaseAddress = new Uri("https://localhost:7218/");
 });
 var app = builder.Build();
 

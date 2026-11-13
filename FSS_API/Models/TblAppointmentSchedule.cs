@@ -14,17 +14,23 @@ public partial class TblAppointmentSchedules
 {
     [Key]
     [Column("AppoScheId")]
+    [Required]
     public int AppoScheId { get; set; }
     [Column("AppoSchDate")]
+    [Required]
     public DateOnly AppoSchDate { get; set; }
     [Column("AppoSchStime")]
+    [Required]
     public TimeOnly AppoSchStime { get; set; }
     [Column("AppoSchEtime")]
+    [Required]
     public TimeOnly AppoSchEtime { get; set; }
     [Column("appoSchIsBooked")]
+    [Required]
     public bool AppoSchIsBooked { get; set; }
 
     [Column("doctorID")]
+    [Required]
     public int DoctorId { get; set; }
 
     [ForeignKey("DoctorId")]
