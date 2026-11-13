@@ -10,7 +10,7 @@ namespace FSS_API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class BookingController : Controller
+    public class BookingController : ControllerBase
     {
         private readonly DBS_Context _context;
         private readonly HttpClient _httpClient;
@@ -18,6 +18,7 @@ namespace FSS_API.Controllers
         public BookingController(DBS_Context context, IHttpClientFactory httpClientFactory)
         {
             _context = context;
+            _httpClient = httpClientFactory.CreateClient("FeeCalcService");
         }
 
         [Authorize(Roles = "Admin")]
@@ -140,4 +141,3 @@ public class FeeResult
 {
     public decimal BookingFee { get; set; }
 }
-

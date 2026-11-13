@@ -10,7 +10,7 @@ namespace FSS_MVC.Controllers
         private readonly HttpClient _httpClient;
         public BookingController(IHttpClientFactory factory)
         {
-            _httpClient = factory.CreateClient("FSS_API");
+            _httpClient = factory.CreateClient();
         }
 
         [Authorize(Roles = "Patient, Docter")]
@@ -25,6 +25,7 @@ namespace FSS_MVC.Controllers
         [Authorize(Roles = "Patient, Docter, Admin")]
         public async Task<IActionResult> Details(int id)
         {
+
             var response = await _httpClient.GetAsync($"api/Booking/{id}");
             if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
                 return NotFound();

@@ -32,7 +32,7 @@ public partial class TblBooking
     [StringLength(80)]
     [Unicode(false)]
 
-    public string DoctorFname { get; set; }
+    public string DoctorFname { get; set; } = string.Empty;
     [ForeignKey("DoctorId")]
     [JsonIgnore]
     [InverseProperty("TblBookings")]

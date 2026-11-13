@@ -8,14 +8,13 @@
 
         public string PatientLname { get; set; } = "";
 
-        public DateOnly PatientDob { get; set; }
+        public DateOnly PatientDob { get; set; } = new DateOnly();
 
         public string PatientStreetAddress { get; set; } = "";
 
         public string PatientSuburb { get; set; } = "";
 
         public string PatientCity { get; set; } = "";
-
         public int PatientPostalCode { get; set; }
 
         public string PatientEmail { get; set; } = "";
