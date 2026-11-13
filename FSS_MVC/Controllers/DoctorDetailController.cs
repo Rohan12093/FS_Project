@@ -66,7 +66,7 @@ namespace FSS_MVC.Controllers
         [Authorize(Roles = "Doctor, Admin")]
         public async Task<IActionResult> Edit(int id)
         {
-            var response = await _httpClient.GetAsync($"api/DoctorSchedule/{id}");
+            var response = await _httpClient.GetAsync($"api/AppointmentSch/{id}");
             if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
                 return NotFound();
             if (!response.IsSuccessStatusCode)
@@ -78,10 +78,10 @@ namespace FSS_MVC.Controllers
                 return NotFound();
 
             //---------------------
-            var docSchedule = await _httpClient.GetFromJsonAsync<List<AppointmentSch>>("api/DoctorSchedule");
+            var appoSch = await _httpClient.GetFromJsonAsync<List<AppointmentSch>>("api/Appointment");
 
-            ViewBag.docSchedule = new SelectList(
-                docSchedule,
+            ViewBag.appoSch = new SelectList(
+                appoSch,
                 "DocSchIsDate",
                 "DocSchStime",
                 bookingSch.DoctorId
