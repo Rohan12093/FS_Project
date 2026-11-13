@@ -10,8 +10,9 @@ namespace FSS_MVC.Controllers
         private readonly HttpClient _httpClient;
         public BookingController(IHttpClientFactory factory)
         {
-            _httpClient = factory.CreateClient("DBS_API");
+            _httpClient = factory.CreateClient("FSS_API");
         }
+
         [Authorize(Roles = "Patient, Docter")]
         public async Task<IActionResult> Index()
         {
@@ -20,7 +21,8 @@ namespace FSS_MVC.Controllers
 
             return View(booking);
         }
-        [Authorize(Roles = "Patient, Docter")]
+
+        [Authorize(Roles = "Patient, Docter, Admin")]
         public async Task<IActionResult> Details(int id)
         {
             var response = await _httpClient.GetAsync($"api/Booking/{id}");
@@ -36,30 +38,26 @@ namespace FSS_MVC.Controllers
         [Authorize(Roles = "Patient, Docter")]
         public async Task<IActionResult> Create()
         {
-            var docSchedule = await _httpClient.GetFromJsonAsync<List<Booking>>("api/Booking/");
+            var appoSchedule = await _httpClient.GetFromJsonAsync<List<Booking>>("api/Booking/");
 
-            ViewBag.docSchedule = new SelectList(
-                docSchedule,
-                "DocScheId",
-                "DocSchIsBooked"
+            ViewData["Schedule"] = new SelectList(
+                appoSchedule,
+                "AppoScheId",
+                "AppoSchIsBooked"
                 );
 
             return View();
         }
         [Authorize(Roles = "Patient, Docter")]
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Booking booking)
         {
-            if (ModelState.IsValid)
-            {
                 var response = await _httpClient.PostAsJsonAsync("api/Booking", booking);
                 if (response.IsSuccessStatusCode)
                 {
                     return RedirectToAction("Index");
                 }
-                return View(booking);
-            }
+            
             return View(booking);
         }
         [Authorize(Roles = "Patient, Docter")]
@@ -119,7 +117,6 @@ namespace FSS_MVC.Controllers
         }
         [Authorize(Roles = "Patient, Docter")]
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(Booking booking)
         {
             //Find Patient with the ID
