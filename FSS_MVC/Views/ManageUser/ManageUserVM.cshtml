@@ -1,0 +1,105 @@
+﻿@* @model List<FFS_MVC.Models.>
+
+<h1>University Course Report</h1>
+<h2>This report combines Courses and Lecturers</h2>
+
+<br />
+<label for="hoursPerCredits">Hours Per Credits:</label>
+<input type="number" id="hoursPerCredit" value="10" min="0" oninput="CalculateHours()" />
+
+<br />
+
+<table class="table table-bordered table-striped">
+	<thead>
+		<tr>
+			<th>Cource Code</th>
+			<th>Cource Title</th>
+			<th>Credits</th>
+			<th>Lecturer</th>
+			<th>Estimated Study Hours</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>@item.CourseCode</td>
+				<td>@item.CourseTitle</td>
+				<td>@item.Credits</td>
+				<td>@item.LecturerName</td>
+				<td class="hours-cell" data-credits="@item.Credits">
+					@item.EstimatedStudyHours
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
+
+<br />
+
+<h3>Ajax Count Uni Courses</h3>
+<button type="button" class="btn btn-primary" onclick="loadCourseCount()">Show Course Count</button>
+<p id="courseCountResult"></p>
+
+<br />
+
+
+<h3>Public API Programming book Suggestion</h3>
+<button type="button" class="btn btn-primary" onclick="loadBook()">Find a programming book</button>
+<p id="bookResult"></p>
+
+
+<br />
+<script>
+	function CalculateHours() {
+		//alert("Hi")
+		var multipler = document.getElementById("hoursPerCredit").value;
+		if (multipler < 0) {
+			multipler = 0;
+		}
+
+		var cells = document.getElementsByClassName("hours-cell");
+
+		for (var i = 0; i < cells.length; i++) {
+			var credits = cells[i].getAttribute("data-credits");
+			cells[i].innerText = credits * multipler;
+		}
+	}
+
+	async function loadCourseCount() {
+		//request to controller with action method
+		var response = await fetch('@Url.Action("CourseCount", "CourseReport")')
+		
+		var data = await response.json();
+
+		document.getElementById("courseCountResult").innerText = "Number of courses: " + data.count;
+
+	}
+
+
+
+
+	async function loadBook() {
+		//Call BookSuggestion() in CourseReportController
+		var response = await fetch('@Url.Action("BookSuggestion", "CourseReport")');
+ 
+		if (response.ok) {
+ 
+			//Convert the JSON reposnse inot Javascript data
+			var data = await response.json();
+ 
+			//Show the result on the page
+			document.getElementById("bookResult").innerText
+				= "Suggested Book: " + data.title;
+		}
+		else {
+			document.getElementById("bookResult").innerText
+				= "Connot find a book right now";
+		}
+ 
+	}
+
+</script>
+
+
+ *@
