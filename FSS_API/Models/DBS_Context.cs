@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace FSS_API.Models;
 
 public partial class DBS_Context : DbContext
@@ -13,7 +14,7 @@ public partial class DBS_Context : DbContext
     {
     }
 
-    public virtual DbSet<TblAppointmentSchedule> TblAppointmentSchedules { get; set; }
+    public virtual DbSet<TblAppointmentSchedules> TblAppointmentSchedules { get; set; }
 
     public virtual DbSet<TblBooking> TblBookings { get; set; }
 
@@ -25,7 +26,7 @@ public partial class DBS_Context : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<TblAppointmentSchedule>(entity =>
+        modelBuilder.Entity<TblAppointmentSchedules>(entity =>
         {
             entity.HasKey(e => e.AppoScheId).HasName("PK__tblAppoi__CBED910C0CB4B43B");
 

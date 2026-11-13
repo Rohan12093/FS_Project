@@ -75,7 +75,7 @@ namespace FSS_MVC.Controllers
                 return NotFound();
 
             //---------------------
-            var docSchedule = await _httpClient.GetFromJsonAsync<List<DoctorSchedule>>("api/DoctorSchedule");
+            var docSchedule = await _httpClient.GetFromJsonAsync<List<AppointmentSch>>("api/DoctorSchedule");
 
             ViewBag.docSchedule = new SelectList(
                 docSchedule,

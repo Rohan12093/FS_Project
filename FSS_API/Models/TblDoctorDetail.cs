@@ -49,7 +49,7 @@ public partial class TblDoctorDetail
     [JsonIgnore]
     [InverseProperty("Doctor")]
 
-    public virtual ICollection<TblAppointmentSchedule> TblAppointmentSchedules { get; set; } = new List<TblAppointmentSchedule>();
+    public virtual ICollection<TblAppointmentSchedules> TblAppointmentSchedules { get; set; } = new List<TblAppointmentSchedules>();
     [JsonIgnore]
     [InverseProperty("Doctor")]
 

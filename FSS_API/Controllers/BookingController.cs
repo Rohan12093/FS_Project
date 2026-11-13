@@ -18,10 +18,11 @@ namespace FSS_API.Controllers
         public BookingController(DBS_Context context, IHttpClientFactory httpClientFactory)
         {
             _context = context;
-            _httpClient = httpClientFactory.CreateClient("FeeCalcService");
         }
 
-        [Authorize(Roles = "Admin,Doctor,Patient")]
+        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Doctor")]
+        [Authorize(Roles = "Patient")]
         [HttpGet]
         public async Task<IActionResult> Index()
         {
