@@ -10,7 +10,7 @@ namespace FSS_MVC.Controllers
         private readonly HttpClient _httpClient;
         public BookingController(IHttpClientFactory factory)
         {
-            _httpClient = factory.CreateClient();
+            _httpClient = factory.CreateClient("FSS_API");
         }
 
         [Authorize(Roles = "Patient, Docter")]

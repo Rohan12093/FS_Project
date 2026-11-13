@@ -20,27 +20,65 @@ builder.Services.AddHttpClient("FSS_API", client =>
 {
     client.BaseAddress = new Uri("https://localhost:7218/");
 });
+
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.Cookie.Name = "UniversitySession";
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 var app = builder.Build();
 
 //--Kailash 11/11/2026--//
 using (var scope = app.Services.CreateScope())
 {
-    var roleManager =
-        scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = scope.ServiceProvider
+        .GetRequiredService<UserManager<ApplicationUser>>();
 
-    string[] roles =
-    {
-        "Admin",
-        "Patient",
-        "Doctor"
+    var users = new (string Email, string Role)[]
+{
+        ("admin@example.com","Admin"),
+        ("patient@example.com","Patient"),
+        ("doctor@example.com","Doctor")
     };
 
-    foreach (var role in roles)
+    foreach (var item in users)
     {
-        if (!await roleManager.RoleExistsAsync(role))
+        var user = await userManager.FindByEmailAsync(item.Email);
+
+        if (user == null)
         {
-            await roleManager.CreateAsync(
-                new IdentityRole(role));
+            user = new ApplicationUser
+            {
+                UserName = item.Email,
+                Email = item.Email,
+                EmailConfirmed = true
+            };
+
+            var result = await userManager.CreateAsync(
+                user, "Password123!");
+
+            if (!result.Succeeded)
+            {
+                throw new Exception(
+                    string.Join(", ",
+                        result.Errors.Select(e => e.Description)));
+            }
+        }
+
+        if (!await userManager.IsInRoleAsync(user, item.Role))
+        {
+            var roleResult = await userManager.AddToRoleAsync(
+                user, item.Role);
+
+            if (!roleResult.Succeeded)
+            {
+                throw new Exception(
+                    string.Join(", ",
+                        roleResult.Errors.Select(e => e.Description)));
+            }
         }
     }
 }
@@ -59,6 +97,10 @@ else
 
 app.UseHttpsRedirection();
 app.UseRouting();
+
+app.UseSession();
+app.UseAuthentication(); 
+app.UseAuthorization();
 
 app.UseAuthorization();
 

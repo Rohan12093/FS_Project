@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Identity.Client.NativeInterop;
 using FSS_MVC.Models;
 
 namespace FSS_MVC.Controllers
@@ -12,7 +11,7 @@ namespace FSS_MVC.Controllers
         private readonly HttpClient _httpClient;
         public PatientDetailController(IHttpClientFactory factory)
         {
-            _httpClient = factory.CreateClient();
+            _httpClient = factory.CreateClient("FSS_API");
         }
         [Authorize(Roles = "Patient")]
         public async Task<IActionResult> Index()
