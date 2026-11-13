@@ -2,22 +2,33 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace FSS_API.Models;
 
+[Table("TblAppointmentSchedule")]
+
 public partial class TblAppointmentSchedule
 {
+    [Key]
+    [Column("AppoScheId")]
     public int AppoScheId { get; set; }
-
+    [Column("AppoSchDate")]
     public DateOnly AppoSchDate { get; set; }
-
+    [Column("AppoSchStime")]
     public TimeOnly AppoSchStime { get; set; }
-
+    [Column("AppoSchEtime")]
     public TimeOnly AppoSchEtime { get; set; }
-
+    [Column("appoSchIsBooked")]
     public bool AppoSchIsBooked { get; set; }
 
+    [Column("doctorID")]
     public int DoctorId { get; set; }
+    [ForeignKey("DoctorId")]
+    [JsonIgnore]
+    [InverseProperty("TblDoctorSchedules")]
 
     public virtual TblDoctorDetail Doctor { get; set; }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using FSS_MVC.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -9,7 +10,7 @@ namespace FSS_MVC.Controllers
         private readonly HttpClient _httpClient;
         public DoctorDetailController(IHttpClientFactory factory)
         {
-            _httpClient = factory.CreateClient("DBS_API");
+            _httpClient = factory.CreateClient("FFS_API");
         }
 
         [Authorize(Roles = "Doctor, Admin")]
@@ -35,13 +36,13 @@ namespace FSS_MVC.Controllers
         [Authorize(Roles = "Doctor, Admin")]
         public async Task<IActionResult> Create()
         {
-            var docSchedule = await _httpClient.GetFromJsonAsync<List<DoctorSchedule>>("api/DoctorSchedule");
+            var appoSch = await _httpClient.GetFromJsonAsync<List<AppointmentSch>>("api/Appointment");
 
-            ViewBag.docSchedule = new SelectList(
-                docSchedule,
-                "DocScheId",
-                "DocSchIsDate",
-                "DocSchStime"
+            ViewBag.appoSch = new SelectList(
+                appoSch,
+                "AppoSchId",
+                "AppoSchIsDate",
+                "AppoSchStime"
                 );
 
             return View();
