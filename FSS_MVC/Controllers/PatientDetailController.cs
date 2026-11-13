@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using FSS_MVC.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Identity.Client.NativeInterop;
@@ -8,10 +9,10 @@ namespace FSS_MVC.Controllers
 {
     public class PatientDetailController : Controller
     {
-        private readonly HttpClient _httpClient;
-        public PatientDetailController(IHttpClientFactory factory)
+        private readonly IHttpClientFactory _httpClientFactory;
+        public PatientDetailController(IHttpClientFactory httpClientFactory)
         {
-            _httpClient = factory.CreateClient("DBS_API");
+            _HttpClientFactory = httpClientFactory.CreateClient();
 
         }
         [Authorize(Roles = "Patient")]

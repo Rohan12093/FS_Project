@@ -10,7 +10,7 @@ namespace FSS_MVC.Controllers
         private readonly HttpClient _httpClient;
         public DoctorDetailController(IHttpClientFactory factory)
         {
-            _httpClient = factory.CreateClient("FFS_API");
+            _httpClient = factory.CreateClient();
         }
 
         [Authorize(Roles = "Doctor, Admin")]

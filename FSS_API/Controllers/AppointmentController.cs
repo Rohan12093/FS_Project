@@ -18,11 +18,11 @@ namespace FSS_API.Controllers
                 _context = context;
             }
 
-            [Authorize(Roles = "Admin,Doctor")]
+            [Authorize(Roles = "Admin, Doctor")]
             [HttpGet]
             public async Task<IActionResult> Index()
             {
-                var doctorSchedule = await _context.TblAppointmentSchedule.ToListAsync();
+                var doctorSchedule = await _context.TblAppointmentSchedules.ToListAsync();
 
                 return Ok(doctorSchedule);
             }
@@ -30,24 +30,24 @@ namespace FSS_API.Controllers
             //--Kailash 9/11/2026--//
             [Authorize(Roles = "Admin,Doctor,Patient")]
             [HttpGet("{appoScheId}")]
-            public async Task<ActionResult<TblAppointmentSchedule>> GetAppointmentSchedule(int appoScheId)
+            public async Task<ActionResult<TblAppointmentSchedules>> GetAppointmentSchedule(int appoScheId)
             {
-                var docsched = await _context.TblAppointmentSchedule.FirstOrDefaultAsync(p => p.DocScheId == appoScheId);
+                var docsche = await _context.TblAppointmentSchedules.FirstOrDefaultAsync(p => p.AppoScheId == appoScheId);
 
-                if (docsched == null)
+                if (docsche == null)
                 {
                     return NotFound("Doctor Shedule not found");
                 }
 
-                return docsched;
+                return docsche;
             }
 
             //---PUT---/
             [Authorize(Roles = "Admin,Doctor")]
             [HttpPut("{appoScheId}")]
-            public async Task<IActionResult> PutDocSchedule(int? appoScheId, TblAppointmentSchedule docSchedule)
+            public async Task<IActionResult> PutDocSchedule(int? appoScheId, TblAppointmentSchedules docSchedule)
             {
-                if (appoScheId != docSchedule.DocScheId)
+                if (appoScheId != docSchedule.AppoScheId)
                 {
                     return BadRequest();
                 }
@@ -69,18 +69,18 @@ namespace FSS_API.Controllers
                         throw;
                     }
                 }
-                return Ok($"Doctor Shedule {appoScheId} has been successfully updated");
+                return Ok($"Doctor Schedule {appoScheId} has been successfully updated");
             }
 
             //--POST--//
             [Authorize(Roles = "Admin,Doctor")]
             [HttpPost]
-            public async Task<ActionResult<TblAppointmentSchedule>> PostDocShedule(TblAppointmentSchedule appoScheId)
+            public async Task<ActionResult<TblAppointmentSchedules>> PostDocShedule(TblAppointmentSchedules appoScheId)
             {
-                _context.TblAppointmentSchedule.Add(appoScheId);
+                _context.TblAppointmentSchedules.Add(appoScheId);
                 await _context.SaveChangesAsync();
 
-                return CreatedAtAction("GetDoctorSchedule", new { appoScheId = docSchedule.DocScheId }, appoScheId);
+                return CreatedAtAction("GetDoctorSchedule", new { appoScheId = appoScheId.AppoScheId }, appoScheId);
             }
 
             //--DELETE--//
@@ -88,13 +88,13 @@ namespace FSS_API.Controllers
             [HttpDelete("{appoScheId}")]
             public async Task<IActionResult> DeleteDocShedule(int? appoScheId)
             {
-                var docsched = await _context.TblAppointmentSchedule.FindAsync(appoScheId);
-                if (docsched == null)
+                var appoSched = await _context.TblAppointmentSchedules.FindAsync(appoScheId);
+                if (appoSched == null)
                 {
                     return NotFound();
                 }
 
-                _context.TblAppointmentSchedule.Remove(appoScheId);
+                _context.TblAppointmentSchedules.Remove(appoSched);
                 await _context.SaveChangesAsync();
 
                 return Ok($"Doctor Schedule has been successfully removed");
@@ -102,7 +102,7 @@ namespace FSS_API.Controllers
 
             private bool DocSheduleExists(int? appoScheId)
             {
-                return _context.TblAppointmentSchedule.Any(e => e.appoScheId == appoScheId);
+                return _context.TblAppointmentSchedules.Any(e => e.AppoScheId == appoScheId);
             }
 
         }

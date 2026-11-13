@@ -8,9 +8,9 @@ using System.Text.Json.Serialization;
 
 namespace FSS_API.Models;
 
-[Table("TblAppointmentSchedule")]
+[Table("TblAppointmentSchedules")]
 
-public partial class TblAppointmentSchedule
+public partial class TblAppointmentSchedules
 {
     [Key]
     [Column("AppoScheId")]
