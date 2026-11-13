@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="FSS_API/FSS_API.csproj" />
+  <Project Path="FSS_MVC/FSS_MVC.csproj" />
+</Solution>
