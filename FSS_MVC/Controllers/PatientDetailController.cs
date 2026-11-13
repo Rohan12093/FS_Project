@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Identity.Client.NativeInterop;
+using FSS_MVC.Models;
 
 namespace FSS_MVC.Controllers
 {
@@ -36,10 +37,10 @@ namespace FSS_MVC.Controllers
         [Authorize(Roles = "Patient")]
         public async Task<IActionResult> Create()
         {
-            var docSchedule = await _httpClient.GetFromJsonAsync<List<PatientDetail>>("api/PatientDetail/");
+            var appoSch = await _httpClient.GetFromJsonAsync<List<PatientDetail>>("api/PatientDetail/");
 
-            ViewBag.docSchedule = new SelectList(
-                docSchedule,
+            ViewBag.appoSch = new SelectList(
+                appoSch,
                 "DocScheId",
                 "DocSchIsDate",
                 "DocSchStime"
