@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Identity.Client.NativeInterop;
+using FSS_MVC.Models;
 
 namespace FSS_MVC.Controllers
 {
@@ -33,13 +34,13 @@ namespace FSS_MVC.Controllers
             return View(await response.Content.ReadFromJsonAsync<PatientDetail>());
 
         }
-        **[Authorize(Roles = "Patient")]
+        [Authorize(Roles = "Patient")]
         public async Task<IActionResult> Create()
         {
-            var docSchedule = await _httpClient.GetFromJsonAsync<List<PatientDetail>>("api/PatientDetail/");
+            var appoSch = await _httpClient.GetFromJsonAsync<List<PatientDetail>>("api/PatientDetail/");
 
-            ViewBag.docSchedule = new SelectList(
-                docSchedule,
+            ViewBag.appoSch = new SelectList(
+                appoSch,
                 "DocScheId",
                 "DocSchIsDate",
                 "DocSchStime"
@@ -49,7 +50,7 @@ namespace FSS_MVC.Controllers
         }
         [Authorize(Roles = "Patient")]
         [HttpPost]
-        ** public async Task<IActionResult> Create(PatientDetail booking)
+        public async Task<IActionResult> Create(PatientDetail booking)
         {
             var response = await _httpClient.PostAsJsonAsync("api/PatientDetail", booking);
             if (response.IsSuccessStatusCode)
@@ -58,7 +59,6 @@ namespace FSS_MVC.Controllers
             }
             return View(booking);
 
-            return BadRequest();
         }
         [Authorize(Roles = "Patient")]
         public async Task<IActionResult> Edit(int id)
@@ -68,7 +68,6 @@ namespace FSS_MVC.Controllers
                 return NotFound();
             if (!response.IsSuccessStatusCode)
                 return NotFound();
-            --ModelState
             var patient = await response.Content.ReadFromJsonAsync<PatientDetail>();
 
             if (patient == null)
@@ -77,7 +76,7 @@ namespace FSS_MVC.Controllers
             //---------------------
             var booking = await _httpClient.GetFromJsonAsync<List<PatientDetail>>("api/PatientDetail");
 
-            **ViewBag.Booking = new SelectList(
+            ViewBag.Booking = new SelectList(
                 booking,
                 "BookingId",
                 "BookingDate",
