@@ -9,7 +9,7 @@ namespace FSS_API.Controllers
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
-    public class PatientDetailController : Controller
+    public class PatientDetailController : ControllerBase
     {
         private readonly DBS_Context _context;
 

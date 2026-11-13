@@ -9,11 +9,10 @@ namespace FSS_MVC.Controllers
 {
     public class PatientDetailController : Controller
     {
-        private readonly IHttpClientFactory _httpClientFactory;
-        public PatientDetailController(IHttpClientFactory httpClientFactory)
+        private readonly HttpClient _httpClient;
+        public PatientDetailController(IHttpClientFactory factory)
         {
-            _HttpClientFactory = httpClientFactory.CreateClient();
-
+            _httpClient = factory.CreateClient();
         }
         [Authorize(Roles = "Patient")]
         public async Task<IActionResult> Index()
