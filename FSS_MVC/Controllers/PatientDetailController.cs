@@ -3,30 +3,29 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Identity.Client.NativeInterop;
-using FSS_MVC.Models;
 
 namespace FSS_MVC.Controllers
 {
     public class PatientDetailController : Controller
     {
-        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly HttpClient _httpClient;
         public PatientDetailController(IHttpClientFactory httpClientFactory)
         {
-            _HttpClientFactory = httpClientFactory.CreateClient();
+            _httpClient = httpClientFactory.CreateClient("FSS_API");
 
         }
-        [Authorize(Roles = "Patient")]
+        [Authorize(Roles = "Admin,Patient")]
         public async Task<IActionResult> Index()
         {
             var booking = await _httpClient.GetFromJsonAsync<List<PatientDetail>>(
-                "api/PatientDetailController/{id}");
+                "api/PatientDetail");
 
             return View(booking);
         }
         [Authorize(Roles = "Patient")]
         public async Task<IActionResult> Details(int id)
         {
-            var response = await _httpClient.GetAsync($"api/PatientDetails/{id}");
+            var response = await _httpClient.GetAsync($"api/PatientDetail/{id}");
             if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
                 return NotFound();
             if (!response.IsSuccessStatusCode)

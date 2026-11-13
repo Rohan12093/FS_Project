@@ -26,9 +26,9 @@ public partial class TblAppointmentSchedules
 
     [Column("doctorID")]
     public int DoctorId { get; set; }
+
     [ForeignKey("DoctorId")]
     [JsonIgnore]
     [InverseProperty("TblDoctorSchedules")]
-
     public virtual TblDoctorDetail Doctor { get; set; }
 }
